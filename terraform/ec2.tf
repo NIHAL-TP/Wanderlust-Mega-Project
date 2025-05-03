@@ -1,6 +1,6 @@
 resource "aws_key_pair" "deployer" {
-  key_name   = "terra-automate-key"
-  public_key = file("/Users/shubham/Documents/work/TrainWithShubham/terra-practice/terra-key.pub")
+  key_name   = "terrakey"
+  public_key = file("C:/Users/Nihal/.ssh/terrakey.pub")
 }
 
 resource "aws_default_vpc" "default" {
@@ -11,6 +11,7 @@ resource "aws_security_group" "allow_user_to_connect" {
   name        = "allow TLS"
   description = "Allow user to connect"
   vpc_id      = aws_default_vpc.default.id
+
   ingress {
     description = "port 22 allow"
     from_port   = 22
@@ -36,9 +37,65 @@ resource "aws_security_group" "allow_user_to_connect" {
   }
 
   ingress {
+    description = "port 8080 allow"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "port 443 allow"
     from_port   = 443
     to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "kubernete nodes"
+    from_port   = 30000
+    to_port     = 32767
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "redis"
+    from_port   = 6376  
+    to_port     = 6376
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "SMTPS"
+    from_port   = 465
+    to_port     = 465
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "app"
+    from_port   = 3000  
+    to_port     = 10000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "smtp"
+    from_port   = 25
+    to_port     = 25
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "kubernetes"
+    from_port   = 6443
+    to_port     = 6443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -55,6 +112,9 @@ resource "aws_instance" "testinstance" {
   security_groups = [aws_security_group.allow_user_to_connect.name]
   tags = {
     Name = "Automate"
+  }
+  lifecycle {
+    prevent_destroy = true
   }
   root_block_device {
     volume_size = 30 
