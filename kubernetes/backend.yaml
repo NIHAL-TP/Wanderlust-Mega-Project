@@ -20,7 +20,7 @@ spec:
         - name: docker-cred
       containers:
         - name: backend
-          image: nihaltp/wanderlust-backend-beta:1.1
+          image: nihaltp/wanderlust-backend-beta:12
           ports:
             - containerPort: 8080
 ---

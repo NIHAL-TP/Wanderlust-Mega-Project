@@ -20,7 +20,7 @@ spec:
         - name: docker-cred
       containers:
         - name: frontend
-          image: nihaltp/wanderlust-frontend-beta:1.1
+          image: nihaltp/wanderlust-frontend-beta:12
           ports:
             - containerPort: 5173
 ---
