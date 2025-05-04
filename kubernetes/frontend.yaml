@@ -16,6 +16,8 @@ spec:
       labels:
         app: frontend
     spec:
+      imagePullsecrets:
+        - name: docker-cred
       containers:
         - name: frontend
           image: nihaltp/wanderlust-frontend-beta:1.1

@@ -16,6 +16,8 @@ spec:
       labels:
         app: backend
     spec:
+      imagePullSecrets:
+        - name: docker-cred
       containers:
         - name: backend
           image: nihaltp/wanderlust-backend-beta:1.1
