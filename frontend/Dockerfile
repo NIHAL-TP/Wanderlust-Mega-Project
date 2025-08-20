@@ -4,10 +4,12 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
-FROM nginx:alpine
+
+
+FROM node:21-slim
 WORKDIR /app
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app .
 COPY .env.docker .env.local
 EXPOSE 5173
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD [ "npm", "run", "dev", "--", "--host" ]
 
